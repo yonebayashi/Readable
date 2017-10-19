@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "react-icons": "^2.2.7",
+    "react-modal": "2.4.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "escape-string-regexp": "^1.0.5",
+    "react": "15.6.1",
+    "react-bootstrap": "^0.31.3",
+    "react-dom": "15.6.1",
+    "react-select": "^1.0.0-rc.10",
+    "sort-by": "^1.2.0"
+  }
+}

@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.overlay {
+  position: fixed;
+  top: 150px;
+  left: 450px;
+  right: 450px;
+  bottom: 150px;
+  background-color: white;
+}
+
+.modal {
+  position: absolute;
+  top: 40px;
+  left: 200px;
+  right: 200px;
+  bottom: 500px;
+  border: 1px solid black;
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  min-width: 500px;
+  z-index: 11;
+}
+
+p {
+  color: #000000;
+  padding-top: 5px;
+}
+
+.navItem {
+  color: #FFFFFF;
+  text-decoration: none;
+  float: left;
+  display: block;
+  padding: 14px 16px;
+}
+
+span {
+  float: right;
+}
+
+select, option {
+  font-family: sans-serif;
+  color: black;
+}
+
+label {
+  font-family: sans-serif;
+  font-weight: 100;
+  float: right;
+}
+
+img {
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  left: 25px;
+  right: 25px;
+}
