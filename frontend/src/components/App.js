@@ -3,13 +3,10 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'react-select/dist/react-select.css';
-
 import { Route } from 'react-router-dom'
-import Modal from 'react-modal'
 import { connect } from 'react-redux'
 import CategoryView from './CategoryView'
 import PostDetail from './PostDetail'
-
 
 class App extends Component {
   render() {

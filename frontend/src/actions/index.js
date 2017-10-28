@@ -34,11 +34,11 @@ export function editPost(post) {
     }
 }
 
-export const DELETE_POST = 'DELETE_POST'
+export const REMOVE_POST = 'REMOVE_POST'
 
-export function deletePost(post) {
+export function removePost(post) {
     return {
-        type: DELETE_POST,
+        type: REMOVE_POST,
         post
     }
 }
@@ -52,3 +52,69 @@ export function sortByOrder(category, order) {
         order
     }
 }
+
+export const OPEN_POST_FORM = 'OPEN_POST_FORM'
+
+export function openPostForm(postForm) {
+    return {
+        type: OPEN_POST_FORM,
+        postForm
+    }
+}
+
+export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
+
+export function closePostForm(postForm) {
+    return {
+        type: CLOSE_POST_FORM,
+        postForm
+    }
+}
+
+export const UPDATE_POST_FORM = 'UPDATE_POST_FORM'
+
+export function updatePostForm(postForm) {
+    return {
+        type: UPDATE_POST_FORM,
+        postForm
+    }
+}
+
+export const CLEAR_POST_FORM = 'CLEAR_POST_FORM'
+
+export function clearPostForm(postForm) {
+    return {
+        type: CLEAR_POST_FORM,
+        postForm
+    }
+}
+
+export const OPEN_EDIT_POST_FORM = 'OPEN_EDIT_POST_FORM'
+
+export function openEditPostForm(postId) {
+    return {
+        type: OPEN_EDIT_POST_FORM,
+        postId
+    }
+}
+
+export const CLOSE_EDIT_POST_FORM = 'CLOSE_EDIT_POST_FORM'
+
+export function closeEditPostForm(postId) {
+    return {
+        type: CLOSE_EDIT_POST_FORM,
+        postId
+    }
+}
+
+export const UPDATE_EDIT_POST_FORM = 'UPDATE_EDIT_POST_FORM'
+
+export function updateEditPostForm(postId, key, value) {
+    return {
+        type: UPDATE_EDIT_POST_FORM,
+        postId,
+        key,
+        value
+    }
+}
+

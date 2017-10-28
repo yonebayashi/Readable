@@ -1,10 +1,18 @@
 import { combineReducers } from 'redux'
-import sortBy from 'sort-by'
 import {
     ADD_CATEGORY,
     ADD_POST,
     EDIT_POST,
-    DELETE_POST, FILTER_BY_CATEGORY, GET_POSTS_BY_CATEGORY, FETCH_POST, SORT_BY_ORDER
+    REMOVE_POST,
+    FILTER_BY_CATEGORY,
+    SORT_BY_ORDER,
+    OPEN_POST_FORM,
+    CLOSE_POST_FORM,
+    UPDATE_POST_FORM,
+    CLEAR_POST_FORM,
+    OPEN_EDIT_POST_FORM,
+    CLOSE_EDIT_POST_FORM,
+    UPDATE_EDIT_POST_FORM,
 } from "../actions/index";
 
 const defaultCategoryData = [
@@ -21,6 +29,19 @@ const defaultCategoryData = [
             path: 'udacity'
         }
     ]
+
+function categories(state = defaultCategoryData, action) {
+    switch (action.type) {
+        case ADD_CATEGORY :
+            const { category } = action
+            return {
+                ...state,
+                [category.name]: category
+            };
+        default :
+            return state
+    }
+}
 
 const defaultPostData = {
     "8xf0y6ziyjabvozdd253nd": {
@@ -47,19 +68,6 @@ const defaultPostData = {
     }
 }
 
-function categories(state = defaultCategoryData, action) {
-    switch (action.type) {
-        case ADD_CATEGORY :
-            const { category } = action
-            return {
-                ...state,
-                [category.name]: category
-            };
-        default :
-            return state
-    }
-}
-
 function posts(state = defaultPostData, action) {
     const { post } = action
     switch (action.type) {
@@ -73,8 +81,83 @@ function posts(state = defaultPostData, action) {
                 ...state,
                 [post.id]: post
             };
-        case DELETE_POST :
-            return state.filter(p => p.id !== post.id)
+        case REMOVE_POST :
+            return {
+                ...state,
+                [post.id]: {
+                    ...state[post.id],
+                    deleted: true
+                }
+            }
+        default :
+            return state
+    }
+}
+
+const defaultPostFormData = {
+    postFormOpen: false,
+    title: '',
+    author: '',
+    body: '',
+    category: 'all'
+}
+
+function postForms(state = defaultPostFormData, action) {
+    const { postForm } = action
+    switch (action.type) {
+        case OPEN_POST_FORM :
+            return {
+                ...state,
+                postFormOpen: true
+            }
+        case CLOSE_POST_FORM :
+            return {
+                ...state,
+                postFormOpen: false
+            }
+        case UPDATE_POST_FORM :
+            return {
+                ...state,
+                ...postForm
+            }
+        case CLEAR_POST_FORM :
+            return {
+                ...state,
+                defaultPostFormData
+            }
+        default :
+            return state
+    }
+}
+
+function editPostForms(state = defaultPostData, action) {
+    const { postId } = action
+    switch (action.type) {
+        case OPEN_EDIT_POST_FORM :
+            return {
+                ...state,
+                [postId]: {
+                    ...state[postId],
+                    editPostFormOpen: true
+                }
+            }
+        case CLOSE_EDIT_POST_FORM :
+            return {
+                ...state,
+                [postId]: {
+                    ...state[postId],
+                    editPostFormOpen: false
+                }
+            }
+        case UPDATE_EDIT_POST_FORM :
+            const { key, value } = action
+            return {
+                ...state,
+                [postId]: {
+                    ...state[postId],
+                   [key]: value
+                }
+            };
         default :
             return state
     }
@@ -107,5 +190,7 @@ export default combineReducers({
     categories,
     posts,
     categoryFilter,
-    categorySort
+    categorySort,
+    postForms,
+    editPostForms
 })

@@ -4,13 +4,9 @@ import PostView from './PostView'
 import Navigation from './Navigation'
 import { filterByCategory } from "../actions/index"
 import { sortByOrder } from "../actions/index"
-import Modal from 'react-modal'
+import AddPostForm from './AddPostForm'
 
 class CategoryView extends Component {
-    state = {
-        modalIsOpen: false
-    }
-
     componentDidMount() {
         const category = this.props.match.params.category || 'all'
         this.props.dispatch(filterByCategory(category))
@@ -19,21 +15,7 @@ class CategoryView extends Component {
     handleSort = (e) => {
         this.props.dispatch(sortByOrder(this.props.categoryName, e.target.value))
     }
-
-    openModal = () => {
-        this.setState(() => ({
-           modalIsOpen: true
-        }))
-    }
-
-    closeModal = () => {
-        this.setState(() => ({
-            modalIsOpen: false
-        }))
-    }
-
     render() {
-        const { modalIsOpen } = this.state
         return (
             <div className='container'>
                 <div>
@@ -51,18 +33,9 @@ class CategoryView extends Component {
                     </nav>
                     <article>
                         <PostView />
+                        <AddPostForm />
                     </article>
-                    <button onClick={this.openModal}>Add post</button>
                 </div>
-                <Modal
-                    className='modal'
-                    overlayClassName='overlay'
-                    isOpen={ modalIsOpen }
-                    onRequestClose={this.closeModal}
-                    contentLabel='Modal'
-                >
-                    <div> Write something </div>
-                </Modal>
             </div>
 
         )

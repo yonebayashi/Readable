@@ -9,7 +9,7 @@ class PostView extends Component {
             <div>
                 {sortOrder === 'voteScore' && (
                     posts.sort(function (a, b){return(b.voteScore - a.voteScore)}).map(post =>
-                            <Post post={post}/>
+                        <Post post={post}/>
                     ))}
                 {sortOrder === 'timestamp' && (
                     posts.sort(function (a, b){return(b.timestamp - a.timestamp)}).map(post =>
@@ -22,7 +22,8 @@ class PostView extends Component {
 
 function mapStateToProps(state) {
     const allPosts = Object.keys(state.posts).map(postId => state.posts[postId])
-    const posts = state.categoryFilter === 'all' ? allPosts : allPosts.filter(post => post.category === state.categoryFilter)
+    const filteredPosts = state.categoryFilter === 'all' ? allPosts : allPosts.filter(post => post.category === state.categoryFilter)
+    const posts = filteredPosts.filter(post => post.deleted === false)
     const sortOrder = state.categorySort[state.categoryFilter] || 'voteScore'
 
     return {
