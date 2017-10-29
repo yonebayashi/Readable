@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import ArrowUp from 'react-icons/lib/go/arrow-up'
 import ArrowDown from 'react-icons/lib/go/arrow-down'
 import { removePost, editPost } from "../actions/index"
-import { deletePost, updatePost } from "../utils/api";
+import { deletePost, upVotePost, downVotePost } from "../utils/api";
 import { connect } from 'react-redux'
 import EditPostForm from './EditPostForm'
+import CommentView from './CommentView'
 
 class Post extends Component {
 
@@ -15,6 +16,16 @@ class Post extends Component {
         deletePost(post.id).then(
             this.props.dispatch(removePost(post))
         )
+    }
+
+    handleUpVote = () => {
+        const { post } = this.props
+        upVotePost(post.id).then(post => this.props.dispatch(editPost(post)))
+    }
+
+    handleDownVote = () => {
+        const { post } = this.props
+        downVotePost(post.id).then(post => this.props.dispatch(editPost(post)))
     }
 
     render() {
@@ -31,11 +42,11 @@ class Post extends Component {
                 <p>{post.body}</p>
                 <div className="voteGroup">
                     <span>
-                        <ArrowUp/>
+                        <ArrowUp onClick={this.handleUpVote}/>
                     </span>
                     <span>| {post.voteScore} |</span>
                     <span>
-                        <ArrowDown/>
+                        <ArrowDown onClick={this.handleDownVote}/>
                     </span>
                 </div>
                 <div className="buttonGroup">
@@ -45,6 +56,9 @@ class Post extends Component {
                     <span>
                         <Button onClick={this.handleDelete}>Delete</Button>
                     </span>
+                </div>
+                <div className="comment-form">
+                    <CommentView postId={post.id}/>
                 </div>
             </Panel>
         )

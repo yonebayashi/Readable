@@ -13,6 +13,10 @@ import {
     OPEN_EDIT_POST_FORM,
     CLOSE_EDIT_POST_FORM,
     UPDATE_EDIT_POST_FORM,
+    ADD_COMMENT,
+    EDIT_COMMENT,
+    REMOVE_COMMENT, OPEN_COMMENT_FORM, UPDATE_COMMENT_FORM, CLOSE_COMMENT_FORM, OPEN_EDIT_COMMENT_FORM,
+    CLOSE_EDIT_COMMENT_FORM, UPDATE_EDIT_COMMENT_FORM
 } from "../actions/index";
 
 const defaultCategoryData = [
@@ -38,6 +42,29 @@ function categories(state = defaultCategoryData, action) {
                 ...state,
                 [category.name]: category
             };
+        default :
+            return state
+    }
+}
+
+function categoryFilter(state = 'all', action) {
+    const { category } = action
+    switch (action.type) {
+        case FILTER_BY_CATEGORY :
+            return category;
+        default :
+            return state
+    }
+}
+
+function categorySort(state = {}, action) {
+    const { category, order } = action
+    switch (action.type) {
+        case SORT_BY_ORDER :
+            return {
+                ...state,
+                [category]: order
+            }
         default :
             return state
     }
@@ -163,23 +190,112 @@ function editPostForms(state = defaultPostData, action) {
     }
 }
 
-function categoryFilter(state = 'all', action) {
-    const { category } = action
+const defaultCommentData = {
+    "894tuq4ut84ut8v4t8wun89g": {
+        id: '894tuq4ut84ut8v4t8wun89g',
+        parentId: "8xf0y6ziyjabvozdd253nd",
+        timestamp: 1468166872634,
+        body: 'Hi there! I am a COMMENT.',
+        author: 'thingtwo',
+        voteScore: 6,
+        deleted: false,
+        parentDeleted: false
+    },
+    "8tu4bsun805n8un48ve89": {
+        id: '8tu4bsun805n8un48ve89',
+        parentId: "8xf0y6ziyjabvozdd253nd",
+        timestamp: 1469479767190,
+        body: 'Comments. Are. Cool.',
+        author: 'thingone',
+        voteScore: -5,
+        deleted: false,
+        parentDeleted: false
+    }
+}
+
+function comments(state = defaultCommentData, action) {
+    const { comment } = action;
+
     switch (action.type) {
-        case FILTER_BY_CATEGORY :
-            return category;
+        case ADD_COMMENT :
+            return {
+                ...state,
+                [comment.id]: comment
+            };
+        case EDIT_COMMENT :
+            return {
+                ...state,
+                [comment.id]: comment
+            };
+        case REMOVE_COMMENT :
+            return {
+                ...state,
+                [comment.id]: {
+                    ...state[comment.id],
+                    deleted: true
+                }
+            };
+        default :
+            return state;
+    }
+}
+
+const defaultCommentFormData = {
+    commentFormOpen: false,
+    author: '',
+    body: ''
+}
+
+function commentForms(state = defaultCommentFormData, action) {
+    const { commentForm } = action
+    switch (action.type) {
+        case OPEN_COMMENT_FORM :
+            return {
+                ...state,
+                commentFormOpen: true
+            }
+        case UPDATE_COMMENT_FORM :
+            return {
+                ...state,
+                ...commentForm
+            }
+        case CLOSE_COMMENT_FORM :
+            return {
+                ...state,
+                commentFormOpen: false
+            }
         default :
             return state
     }
 }
 
-function categorySort(state = {}, action) {
-    const { category, order } = action
+function editCommentForms(state = defaultCommentData, action) {
+    const { commentId } = action
     switch (action.type) {
-        case SORT_BY_ORDER :
+        case OPEN_EDIT_COMMENT_FORM :
             return {
                 ...state,
-                [category]: order
+                [commentId]: {
+                    ...state[commentId],
+                    editCommentFormOpen: true
+                }
+            }
+        case CLOSE_EDIT_COMMENT_FORM :
+            return {
+                ...state,
+                [commentId]: {
+                    ...state[commentId],
+                    editCommentFormOpen: false
+                }
+            }
+        case UPDATE_EDIT_COMMENT_FORM :
+            const { key, value } = action
+            return {
+                ...state,
+                [commentId]: {
+                    ...state[commentId],
+                    [key]: value
+                }
             }
         default :
             return state
@@ -192,5 +308,9 @@ export default combineReducers({
     categoryFilter,
     categorySort,
     postForms,
-    editPostForms
+    editPostForms,
+    comments,
+    commentForms,
+    editCommentForms
 })
+
