@@ -1,21 +1,21 @@
-# Readable API Server
+# Readable project
 
-This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+##About
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
+A post-tracking app using the React and Redux framework 
 
-## Start Developing
-
-To get started developing right away:
-
-* Install and start the API server
+## Setup
+1. Clone this project
+2. To install and start the API server, in a terminal window
     - `cd api-server`
     - `npm install`
     - `node server`
-* In another terminal window, use Create React App to scaffold out the front-end
-    - `create-react-app frontend`
+3. To install the dependencies and run the app, in another terminal window
     - `cd frontend`
+    - `npm install`
     - `npm start`
+
+_Voila!_
 
 ## API Server
 
