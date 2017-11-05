@@ -1,6 +1,6 @@
 # Readable project
 
-##About
+## About
 
 A post-tracking app using the React and Redux framework 
 
