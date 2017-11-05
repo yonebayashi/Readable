@@ -2,12 +2,20 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap'
-import { updatePost } from "../utils/api";
-import {openEditPostForm, closeEditPostForm, updateEditPostForm, editPost} from "../actions/index";
+import { updatePost, getPost } from "../utils/api";
+import { closeEditPostForm, updateEditPostForm, editPost } from "../actions/index";
 
 class EditPostForm extends Component {
     state = {
         modalIsOpen: false
+    }
+
+    componentDidMount() {
+        getPost(this.props.postId).then(post => {
+            this.props.dispatch(updateEditPostForm(post.id, 'title', post.title));
+            this.props.dispatch(updateEditPostForm(post.id, 'body', post.body));
+            this.props.dispatch(updateEditPostForm(post.id, 'category', post.category));
+        })
     }
 
     closeModal = () => {
@@ -48,12 +56,6 @@ class EditPostForm extends Component {
         this.props.dispatch(updateEditPostForm(post.id, data.name, data.value))
     }
 
-    handleOpenEditForm = () => {
-        const { post } = this.props
-        this.props.dispatch(openEditPostForm(post.id))
-        this.openModal()
-    }
-
     handleSubmit = (e) => {
         e.preventDefault()
         const { post, title, body, category } = this.props
@@ -73,7 +75,7 @@ class EditPostForm extends Component {
         const { categories, title, body, category } = this.props
         return (
             <div>
-                <Button onClick={this.handleOpenEditForm}>Edit</Button>
+                <Button onClick={this.openModal}>Edit</Button>
                 <Modal show={this.state.modalIsOpen} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Edit Post</Modal.Title>
@@ -127,14 +129,15 @@ class EditPostForm extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+    const categories = Object.keys(state.categories).map(key => state.categories[key])
     const postId = ownProps.postId
-    const post = state.editPostForms[postId]
+    const post = state.posts[postId]
     return {
         post,
-        categories: state.categories,
-        title: post.title || '',
-        body: post.body || '',
-        category: post.category || 'all'
+        categories,
+        title: state.editPostForms[postId].title || '',
+        body: state.editPostForms[postId].body || '',
+        category: state.editPostForms[postId].category || 'all'
     }
 }
 

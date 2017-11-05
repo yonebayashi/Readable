@@ -1,22 +1,29 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { filterByCategory } from "../actions/index"
+import { getCategories } from "../utils/api";
+import { addCategory, filterByCategory } from "../actions/index"
 
 class Navigation extends Component {
+    componentDidMount() {
+        getCategories().then((categories) => {
+            categories.map((category) => {
+                this.props.dispatch(addCategory(category));
+            })
+        });
+    }
     render () {
-        const { categories } = this.props
         return (
             <div>
                 <h2>Readable</h2>
                 <nav>
-                    <a onClick={() => {this.props.updateCategory('all')}}>
+                    <a onClick={() => {this.props.dispatch(filterByCategory('all'))}}>
                         <Link to='/'>
                             <p className='navItem'>All</p>
                         </Link>
                     </a>
-                    {categories.map(category => (
-                        <a key={category.name} onClick={() => {this.props.updateCategory(category.name)}}>
+                    {this.props.categories.map(category => (
+                        <a key={category.name} onClick={() => {this.props.dispatch(filterByCategory(category.name))}}>
                             <Link to={`/${category.path}`}>
                                 <p className='navItem'>{category.name}</p>
                             </Link>
@@ -28,16 +35,11 @@ class Navigation extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
+    const category_keys = Object.keys(state.categories);
     return {
-        categories: state.categories
+        categories: category_keys.map(category_key => state.categories[category_key]),
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        updateCategory: (data) => dispatch(filterByCategory(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
+export default connect(mapStateToProps)(Navigation)

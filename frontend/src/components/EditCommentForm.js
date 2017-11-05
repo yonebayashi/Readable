@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Modal, FormControl, Button } from 'react-bootstrap'
-import { updateComment } from "../utils/api";
-import {openEditCommentForm, closeEditCommentForm, updateEditCommentForm, editComment } from "../actions/index";
+import { updateComment, getComment } from "../utils/api";
+import { closeEditCommentForm, updateEditCommentForm, editComment } from "../actions/index";
 
 class EditCommentForm extends Component {
     state = {
         modalIsOpen: false
+    }
+
+    componentDidMount () {
+        getComment(this.props.commentId).then(comment => {
+            this.props.dispatch(updateEditCommentForm(comment.id, 'body', comment.body))
+        })
     }
 
     closeModal = () => {
@@ -22,30 +28,14 @@ class EditCommentForm extends Component {
         })
     }
 
-    getInputValue = () => {
-        return {
-            body:  ReactDOM.findDOMNode(this.refs.body)
-        }
-    }
-
-    handleBodyChange = () => {
-        const { comment } = this.props
-        const data = this.getInputValue().body
-        this.props.dispatch(updateEditCommentForm(comment.id, data.name, data.value))
-    }
-
-    handleOpenEditForm = () => {
-        const { comment } = this.props
-        this.props.dispatch(openEditCommentForm(comment.id))
-        this.openModal()
+    handleChange = () => {
+        const value = ReactDOM.findDOMNode(this.refs.body).value
+        this.props.dispatch(updateEditCommentForm(this.props.commentId, 'body', value))
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { comment, body } = this.props
-        updateComment(comment.id, {
-            body: body,
-        }).then(comment => {
+        updateComment(this.props.commentId, { body: this.props.body }).then(comment => {
                 this.props.dispatch(editComment(comment))
                 this.props.dispatch(closeEditCommentForm(comment.id))
                 this.closeModal()
@@ -56,7 +46,7 @@ class EditCommentForm extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleOpenEditForm}>Edit</Button>
+                <Button onClick={this.openModal}>Edit</Button>
                 <Modal show={this.state.modalIsOpen} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Edit Post</Modal.Title>
@@ -68,7 +58,7 @@ class EditCommentForm extends Component {
                                          componentClass="textarea"
                                          ref="body"
                                          defaultValue={this.props.body}
-                                         onChange={this.handleBodyChange}
+                                         onChange={this.handleChange}
                             />
                         </form>
                     </Modal.Body>
@@ -85,7 +75,6 @@ class EditCommentForm extends Component {
 function mapStateToProps(state, ownProps) {
     const commentId = ownProps.commentId
     const comment = state.editCommentForms[commentId]
-    console.log(commentId, comment)
     return {
         comment,
         body: comment.body || ''

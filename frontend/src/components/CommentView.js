@@ -8,9 +8,11 @@ class CommentView extends Component {
     state = {
         showComments: false
     }
+
     handleClick = () => {
         this.setState({ showComments: true })
     }
+
     render() {
         const { postId, comments, comment_count } = this.props
         return (
@@ -18,7 +20,7 @@ class CommentView extends Component {
                 <Button bsStyle='link' onClick={this.handleClick}>Comments ({comment_count}) </Button>
                 {this.state.showComments ? (
                     comments.sort(function (a, b){return(b.voteScore - a.voteScore)}).map(comment =>
-                        <Comment comment={comment}/>
+                        <Comment commentId={comment.id}/>
                     )
                 ) : null }
                 <AddCommentForm postId={postId}/>

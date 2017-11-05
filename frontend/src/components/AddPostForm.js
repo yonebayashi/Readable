@@ -137,10 +137,10 @@ class AddPostForm extends Component {
 
 function mapStateToProps(state) {
     const post = state.postForms
-    const categories = state.categories
+    const category_keys = Object.keys(state.categories);
 
     return {
-        categories,
+        categories: category_keys.map(category_key => state.categories[category_key]),
         title: post.title,
         author: post.author,
         body: post.body,

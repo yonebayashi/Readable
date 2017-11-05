@@ -19,22 +19,8 @@ import {
     CLOSE_EDIT_COMMENT_FORM, UPDATE_EDIT_COMMENT_FORM
 } from "../actions/index";
 
-const defaultCategoryData = [
-        {
-            name: 'react',
-            path: 'react'
-        },
-        {
-            name: 'redux',
-            path: 'redux'
-        },
-        {
-            name: 'udacity',
-            path: 'udacity'
-        }
-    ]
 
-function categories(state = defaultCategoryData, action) {
+function categories(state = {}, action) {
     switch (action.type) {
         case ADD_CATEGORY :
             const { category } = action
@@ -70,32 +56,7 @@ function categorySort(state = {}, action) {
     }
 }
 
-const defaultPostData = {
-    "8xf0y6ziyjabvozdd253nd": {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2
-    },
-    "6ni6ok3ym7mf1p33lnez": {
-        id: '6ni6ok3ym7mf1p33lnez',
-        timestamp: 1468479767190,
-        title: 'Learn Redux in 10 minutes!',
-        body: 'Just kidding. It takes more than 10 minutes to learn technology.',
-        author: 'thingone',
-        category: 'redux',
-        voteScore: -5,
-        deleted: false,
-        commentCount: 0
-    }
-}
-
-function posts(state = defaultPostData, action) {
+function posts(state = {}, action) {
     const { post } = action
     switch (action.type) {
         case ADD_POST :
@@ -157,7 +118,7 @@ function postForms(state = defaultPostFormData, action) {
     }
 }
 
-function editPostForms(state = defaultPostData, action) {
+function editPostForms(state = {}, action) {
     const { postId } = action
     switch (action.type) {
         case OPEN_EDIT_POST_FORM :
@@ -190,30 +151,7 @@ function editPostForms(state = defaultPostData, action) {
     }
 }
 
-const defaultCommentData = {
-    "894tuq4ut84ut8v4t8wun89g": {
-        id: '894tuq4ut84ut8v4t8wun89g',
-        parentId: "8xf0y6ziyjabvozdd253nd",
-        timestamp: 1468166872634,
-        body: 'Hi there! I am a COMMENT.',
-        author: 'thingtwo',
-        voteScore: 6,
-        deleted: false,
-        parentDeleted: false
-    },
-    "8tu4bsun805n8un48ve89": {
-        id: '8tu4bsun805n8un48ve89',
-        parentId: "8xf0y6ziyjabvozdd253nd",
-        timestamp: 1469479767190,
-        body: 'Comments. Are. Cool.',
-        author: 'thingone',
-        voteScore: -5,
-        deleted: false,
-        parentDeleted: false
-    }
-}
-
-function comments(state = defaultCommentData, action) {
+function comments(state = {}, action) {
     const { comment } = action;
 
     switch (action.type) {
@@ -269,7 +207,7 @@ function commentForms(state = defaultCommentFormData, action) {
     }
 }
 
-function editCommentForms(state = defaultCommentData, action) {
+function editCommentForms(state = {}, action) {
     const { commentId } = action
     switch (action.type) {
         case OPEN_EDIT_COMMENT_FORM :

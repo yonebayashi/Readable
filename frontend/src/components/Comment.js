@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Panel, Button, ButtonGroup } from 'react-bootstrap'
+import { Panel, Button } from 'react-bootstrap'
 import ArrowUp from 'react-icons/lib/go/arrow-up'
 import ArrowDown from 'react-icons/lib/go/arrow-down'
-import { removeComment, editComment } from "../actions/index";
+import {removeComment, editComment, openEditCommentForm} from "../actions/index";
 import { deleteComment, upVoteComment, downVoteComment } from "../utils/api";
 import EditCommentForm from './EditCommentForm'
 
 class Comment extends Component {
-
     handleDelete = () => {
         const { comment } = this.props
         deleteComment(comment.id).then(
@@ -24,6 +23,10 @@ class Comment extends Component {
     handleDownVote = () => {
         const { comment } = this.props
         downVoteComment(comment.id).then(comment => this.props.dispatch(editComment(comment)))
+    }
+
+    handleOpenEditCommentForm = () => {
+        this.props.dispatch(openEditCommentForm(this.props.comment.id))
     }
 
     render() {
@@ -47,9 +50,13 @@ class Comment extends Component {
                     </span>
                 </div>
                 <div className="buttonGroup">
-                    <span>
-                        <EditCommentForm commentId={comment.id}/>
-                    </span>
+                    {this.props.editCommentFormOpen ? (
+                        <span>
+                            <EditCommentForm commentId={comment.id}/>
+                        </span>
+                    ) : (
+                        this.handleOpenEditCommentForm()
+                    )}
                     <span>
                         <Button onClick={this.handleDelete}>Delete</Button>
                     </span>
@@ -60,8 +67,11 @@ class Comment extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+    const commentId = ownProps.commentId
+    console.log("comment @", commentId)
     return {
-        comment: state.comments[ownProps.comment.id]
+        comment: state.comments[commentId],
+        editCommentFormOpen: state.editCommentForms[commentId] ? state.editCommentForms[commentId].editCommentFormOpen : false
     }
 }
 export default connect(mapStateToProps)(Comment);

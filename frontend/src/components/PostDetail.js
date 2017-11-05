@@ -13,18 +13,18 @@ class PostDetail extends Component {
     }
 
     render() {
-        const { post } = this.props
         return (
-            <Post post={post}/>
+            <Post postId={this.props.post.id}/>
         )
     }
 }
 
 function mapStateToProps(state, ownProps) {
     const postId = ownProps.match.params.id
+    const post = state.posts[postId]
     return {
-        post: state.posts[postId]
+        post
     }
 }
 
-export default connect(mapStateToProps)(PostDetail)
+export default connect(mapStateToProps)(PostDetail);
