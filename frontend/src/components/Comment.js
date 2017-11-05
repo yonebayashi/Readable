@@ -68,7 +68,6 @@ class Comment extends Component {
 
 function mapStateToProps(state, ownProps) {
     const commentId = ownProps.commentId
-    console.log("comment @", commentId)
     return {
         comment: state.comments[commentId],
         editCommentFormOpen: state.editCommentForms[commentId] ? state.editCommentForms[commentId].editCommentFormOpen : false
