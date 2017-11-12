@@ -71,6 +71,7 @@ class AddPostForm extends Component {
         }).then(post => {
             this.props.dispatch(addPost(post))
             this.props.dispatch(closePostForm())
+            this.closeModal()
         })
     }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Post from "./Post";
+import Post from "./Post"
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addPost } from "../actions/index";
 import { getPost } from "../utils/api";
@@ -14,7 +15,10 @@ class PostDetail extends Component {
 
     render() {
         return (
-            <Post postId={this.props.post.id}/>
+            <div>
+                <Post postId={this.props.post.id}/>
+                <Link to='/'>Back</Link>
+            </div>
         )
     }
 }
