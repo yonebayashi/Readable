@@ -10,6 +10,10 @@ import EditPostForm from './EditPostForm'
 import CommentView from './CommentView'
 
 class Post extends Component {
+    state = {
+        showPost: true
+    }
+
     componentDidMount () {
         getComments(this.props.post.id).then(comments => {
             comments.map(comment => {
@@ -23,6 +27,9 @@ class Post extends Component {
         deletePost(post.id).then(
             this.props.dispatch(removePost(post))
         )
+        this.setState({
+            showPost: false
+        })
     }
 
     handleUpVote = () => {
@@ -40,40 +47,44 @@ class Post extends Component {
     render() {
         const { post } = this.props
         return (
-            <Panel>
-                <p><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></p>
-                <p>
-                    by <strong>{post.author} </strong> in <strong>{post.category}</strong>
-                </p>
-                <p>
-                    on {new Date(post.timestamp).toDateString()} at {new Date(post.timestamp).toLocaleTimeString()}
-                </p>
-                <p>{post.body}</p>
-                <div className="voteGroup">
+            <div>
+                {this.state.showPost === true ?
+                    <Panel>
+                        <p><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></p>
+                        <p>
+                            by <strong>{post.author} </strong> in <strong>{post.category}</strong>
+                        </p>
+                        <p>
+                            on {new Date(post.timestamp).toDateString()} at {new Date(post.timestamp).toLocaleTimeString()}
+                        </p>
+                        <p>{post.body}</p>
+                        <div className="voteGroup">
                     <span>
                         <ArrowUp onClick={this.handleUpVote}/>
                     </span>
-                    <span>| {post.voteScore} |</span>
-                    <span>
+                            <span>| {post.voteScore} |</span>
+                            <span>
                         <ArrowDown onClick={this.handleDownVote}/>
                     </span>
-                </div>
-                <div className="buttonGroup">
-                    {this.props.editPostFormOpen ? (
-                        <span>
+                        </div>
+                        <div className="buttonGroup">
+                            {this.props.editPostFormOpen ? (
+                                <span>
                             <EditPostForm postId={post.id}/>
                         </span>
-                    ) : (
-                        this.handleOpenEditForm()
-                    )}
-                    <span>
+                            ) : (
+                                this.handleOpenEditForm()
+                            )}
+                            <span>
                         <Button onClick={this.handleDelete}>Delete</Button>
                     </span>
-                </div>
-                <div className="comment-form">
-                    <CommentView postId={post.id}/>
-                </div>
-            </Panel>
+                        </div>
+                        <div className="comment-form">
+                            <CommentView postId={post.id}/>
+                        </div>
+                    </Panel> : null}
+            </div>
+
         )
     }
 }

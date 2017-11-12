@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import 'react-select/dist/react-select.css';
 import { Route } from 'react-router-dom'
 import CategoryView from './CategoryView'
 import PostDetail from './PostDetail'
